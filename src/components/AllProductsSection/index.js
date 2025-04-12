@@ -73,6 +73,7 @@ class AllProductsSection extends Component {
     searchText: '',
     category: '',
     rating: '',
+    apiStatus: 'Pending',
   }
 
   componentDidMount() {
@@ -103,6 +104,7 @@ class AllProductsSection extends Component {
     const {searchText, category, rating} = this.state
     this.setState({
       isLoading: true,
+      apiStatus: 'Pending',
     })
     const jwtToken = Cookies.get('jwt_token')
 
@@ -130,12 +132,11 @@ class AllProductsSection extends Component {
       this.setState({
         productsList: updatedData,
         isLoading: false,
+        apiStatus: 'Fulfilled',
       })
-      console.log('fetching Done')
     } else {
       // not working
-      // on unsuccessful fetch fails it should display img
-      console.log('fetching error')
+      this.setState({isLoading: false, apiStatus: 'Rejected'})
     }
   }
 
@@ -172,8 +173,16 @@ class AllProductsSection extends Component {
   // TODO: Add failure view
 
   render() {
-    const {isLoading, productsList, searchText, category, rating} = this.state
+    const {
+      isLoading,
+      productsList,
+      searchText,
+      category,
+      rating,
+      apiStatus,
+    } = this.state
     // console.log(isLoading)
+    console.log(apiStatus)
     // just check isloading true when data not found
     return (
       <div className="all-products-section">
