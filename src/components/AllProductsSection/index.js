@@ -79,16 +79,28 @@ class AllProductsSection extends Component {
     this.getProducts()
   }
 
+  changeSearchText = event => {
+    this.setState({searchText: event.target.value})
+  }
+
+  changeRating = value => {
+    this.setState({rating: value}, this.getProducts)
+  }
+
+  changeCategory = id => {
+    this.setState({category: id}, this.getProducts)
+  }
+
   clearFilterTexts = () => {
     this.setState({searchText: '', category: '', rating: ''}, this.getProducts)
   }
 
-  searchingTextChanging = async val => {
+  searchingTextChanging = val => {
     this.setState({isLoading: true, searchText: val}, this.getProducts)
   }
 
   getProducts = async () => {
-    let {searchText, category, rating} = this.state
+    const {searchText, category, rating} = this.state
     this.setState({
       isLoading: true,
     })
@@ -121,6 +133,8 @@ class AllProductsSection extends Component {
       })
       console.log('fetching Done')
     } else {
+      // not working
+      // on unsuccessful fetch fails it should display img
       console.log('fetching error')
     }
   }
@@ -159,6 +173,8 @@ class AllProductsSection extends Component {
 
   render() {
     const {isLoading, productsList, searchText, category, rating} = this.state
+    // console.log(isLoading)
+    // just check isloading true when data not found
     return (
       <div className="all-products-section">
         {/* TODO: Update the below element */}
@@ -168,6 +184,9 @@ class AllProductsSection extends Component {
           searchingTextChanging={this.searchingTextChanging}
           clearFilterTexts={this.clearFilterTexts}
           searchText={searchText}
+          changeSearchText={this.changeSearchText}
+          changeCategory={this.changeCategory}
+          changeRating={this.changeRating}
         />
 
         {isLoading ? this.renderLoader() : this.renderProductsList()}

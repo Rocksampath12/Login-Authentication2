@@ -9,22 +9,20 @@ const FiltersGroup = props => {
     searchingTextChanging,
     clearFilterTexts,
     searchText,
+    changeSearchText,
+    changeCategory,
+    changeRating,
   } = props
-  let changingSearchText = event => {
+  const changingSearchText = event => {
     if (event.key === 'Enter') {
       searchingTextChanging(event.target.value)
     }
   }
-  let clearFilter = () => {
+  const updateSearchText = event => {
+    changeSearchText(event)
+  }
+  const clearFilter = () => {
     clearFilterTexts()
-  }
-  let changeCategory = event => {
-    //1. how should i update the category in state
-  }
-  let changeRating = event => {
-    //2. how should i update the rating in state
-    //3. the search input is not working may i know why
-    //4. when fetching is wrong then how should i display img
   }
   return (
     <div className="filters-group-container">
@@ -34,6 +32,7 @@ const FiltersGroup = props => {
           placeholder="Search"
           className="search-input"
           onKeyDown={changingSearchText}
+          onChange={updateSearchText}
           value={searchText}
         />
         <BsSearch className="search-icon" />
@@ -42,30 +41,34 @@ const FiltersGroup = props => {
         <li>
           <h1 className="category-main-heading">Category</h1>
         </li>
-        {categoryOptions.map(obj => {
-          return (
-            <li
-              key={obj.categoryId}
-              className="category-heading"
-              onClick={changeCategory}
-            >
-              {obj.name}
-            </li>
-          )
-        })}
+        {categoryOptions.map(obj => (
+          <li
+            key={obj.categoryId}
+            className="category-heading"
+            onClick={() => changeCategory(obj.categoryId)}
+          >
+            <p>{obj.name}</p>
+          </li>
+        ))}
       </ul>
       <ul className="rating-section">
         <li>
           <h1 className="category-main-heading">Rating</h1>
         </li>
-        {ratingsList.map(obj => {
-          return (
-            <li key={obj.ratingId} className="rating-list">
-              <img src={obj.imageUrl} alt="" className="rating-img" />
-              <span className="rating-text">& up</span>
-            </li>
-          )
-        })}
+        {ratingsList.map(obj => (
+          <li
+            key={obj.ratingId}
+            className="rating-list"
+            onClick={() => changeRating(obj.ratingId)}
+          >
+            <img
+              src={obj.imageUrl}
+              alt={`rating ${obj.ratingId}`}
+              className="rating-img"
+            />
+            <span className="rating-text">& up</span>
+          </li>
+        ))}
       </ul>
       <button
         type="button"

@@ -57,12 +57,13 @@
 }
 .rating-list {
   margin-bottom: 10px;
+  cursor:pointer;
 }
 .clear-filter-button {
   background-color: transparent;
   color: #0967d2;
   border: 2px solid #0967d2;
-  border-radius:5px;
-  padding:5px;
-  cursor:pointer;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
 }
